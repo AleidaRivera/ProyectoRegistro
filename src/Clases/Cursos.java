@@ -1,31 +1,49 @@
 
 package Clases;
-import Excepciones.CursoLleno;
-import Excepciones.EstudanteDuplicado;
-import java.util.List;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 public class Cursos {
-    private String codigo;
+    private int codigo;
     private String nombre;
     private String descripcion;
-    private Profesor profesor;
+    private int profesor;
     private int capacidadMaxima;
-    private List<Estudiante> listaEstudiantes;
-
-    public Cursos (String codigo, String nombre, String descripcion, Profesor profesor, int capacidadMaxima, List<Estudiante> listaEstudiantes) {
+   
+    public Cursos (int codigo, String nombre, String descripcion, int profesor, int capacidadMaxima) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.profesor = profesor;
         this.capacidadMaxima = capacidadMaxima;
-        this.listaEstudiantes = listaEstudiantes;
+             
+               
+        File myObj = new File("C:\\Archivos\\cursos.txt");                                         
+                     
+        try {
+            FileWriter escritor = new FileWriter(myObj, true); // true para agregar (append)  
+            escritor.write("Id: " + codigo + " | ");
+            escritor.write(nombre + " | "); 
+            escritor.write(descripcion + " | "); 
+            escritor.write(profesor + " | ");
+            escritor.write(capacidadMaxima + " | ");               
+            System.out.print("Curso Agregado al Sistema!\n");
+            escritor.close();       
+        } catch (IOException ex) {
+            Logger.getLogger(Estudiante.class.getName()).log(Level.SEVERE, null, ex);
+        }               
+        
     }
 
-    public String getCodigo() {
+    public int getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(String codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 
@@ -44,46 +62,14 @@ public class Cursos {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-
-    public Profesor getProfesor() {
-        return profesor;
-    }
-
-    public void setProfesor(Profesor profesor) {
-        this.profesor = profesor;
-    }
-
+   
     public int getCapacidadMaxima() {
         return capacidadMaxima;
     }
 
     public void setCapacidadMaxima(int capacidadMaxima) {
         this.capacidadMaxima = capacidadMaxima;
-    }
+    }     
+ }
+   
 
-    public List<Estudiante> getListaEstudiantes() {
-        return listaEstudiantes;
-    }
-
-    public void setListaEstudiantes(List<Estudiante> listaEstudiantes) {
-        this.listaEstudiantes = listaEstudiantes;
-    }
-    
-    // se hicieron cambios en el metodo para mejorar el manejo de estudiantes
-  public void agregarEstudiante(Estudiante estudiante) throws EstudanteDuplicado, CursoLleno {
-    if (listaEstudiantes.size() >= capacidadMaxima) {
-        throw new CursoLleno(" No se puede agregar estudiante, el curso está lleno.");
-    }
-
-    for (Estudiante e : listaEstudiantes) {
-        if (e.getCarnet().equals(estudiante.getCarnet())) {
-            throw new EstudanteDuplicado(" El estudiante con carnet " + estudiante.getCarnet() + " ya está inscrito.");
-        }
-    }
-    listaEstudiantes.add(estudiante);
-}
-    @Override
-    public String toString() {
-        return "Curso: " + codigo + " " + nombre + " (" + getCapacidadMaxima() + "" + capacidadMaxima + ")";
-    }
-}
