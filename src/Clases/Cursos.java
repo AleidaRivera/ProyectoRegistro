@@ -20,23 +20,6 @@ public class Cursos {
         this.descripcion = descripcion;
         this.profesor = profesor;
         this.capacidadMaxima = capacidadMaxima;
-             
-               
-        File myObj = new File("C:\\Archivos\\cursos.txt");                                         
-                     
-        try {
-            FileWriter escritor = new FileWriter(myObj, true); // true para agregar (append)  
-            escritor.write("Id: " + codigo + " | ");
-            escritor.write(nombre + " | "); 
-            escritor.write(descripcion + " | "); 
-            escritor.write(profesor + " | ");
-            escritor.write(capacidadMaxima + " | ");               
-            System.out.print("Curso Agregado al Sistema!\n");
-            escritor.close();       
-        } catch (IOException ex) {
-            Logger.getLogger(Estudiante.class.getName()).log(Level.SEVERE, null, ex);
-        }               
-        
     }
 
     public int getCodigo() {

@@ -2,8 +2,8 @@
 package Clases;
 
 
-abstract class Persona {
-      private String nombres;
+public class Persona {
+    private String nombres;
     private String apellidos;
     private String email;
     private String telefono;
