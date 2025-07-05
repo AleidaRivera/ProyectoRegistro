@@ -1,10 +1,5 @@
 
 package Clases;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class Cursos {
@@ -53,6 +48,11 @@ public class Cursos {
     public void setCapacidadMaxima(int capacidadMaxima) {
         this.capacidadMaxima = capacidadMaxima;
     }     
+
+    @Override
+    public String toString() {
+        return "Cursos{" + "codigo=" + codigo + ", nombre=" + nombre + ", descripcion=" + descripcion + ", profesor=" + profesor + ", capacidadMaxima=" + capacidadMaxima + '}';
+    }
  }
    
 

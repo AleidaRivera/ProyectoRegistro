@@ -301,7 +301,7 @@ public class GestionAcademica implements Procesable {
         }
         
         return matriculas.removeIf(m -> carnetEstudiante.equals(m.getEstudiante()) && 
-                                       codigoCurso.equals(m.getCurso()));
+        codigoCurso.equals(m.getCurso()));
     }
 
     @Override
@@ -342,4 +342,5 @@ public class GestionAcademica implements Procesable {
     public List<Matricula> obtenerTodasLasMatriculas() {
         return new ArrayList<>(matriculas);
     }
+    
 }
