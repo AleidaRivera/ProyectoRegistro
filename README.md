@@ -16,7 +16,7 @@ Funciones principales:
 - Edición y eliminación de registros
 - Visualización de matrículas existentes
 
-## ⚙ Cómo compilar y ejecutar
+##  Cómo compilar y ejecutar
 
 1. Abrir el proyecto en **NetBeans IDE**
 2. Verificar que esté configurado el **JDK (Java Development Kit)** correctamente
