@@ -46,11 +46,9 @@ abstract class Persona {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+
     
-     public String getNombreCompleto() {
-        return nombres + " " + apellidos;
-    }
-    
+   
   enum TipoContrato {
     TIEMPO_COMPLETO,
     POR_HORAS

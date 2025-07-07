@@ -1,13 +1,5 @@
 package Clases;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-/**
- *
- * @author RODRIGUEZ
- */
+
 public class Profesor extends Persona {
      
     private String idProfesor;
@@ -19,26 +11,6 @@ public class Profesor extends Persona {
         this.idProfesor = idProfesor;
         this.especialidad = especialidad;
         this.tipoContrato = tipoContrato;
-        
-        
-         //System.out.print("entro aca!\n");
-         File myObj = new File("C:\\Archivos\\profesor.txt");                                         
-                     
-        try {
-            FileWriter escritor = new FileWriter(myObj, true); // true para agregar (append)  
-            escritor.write("Id: " + idProfesor + " | ");
-            escritor.write(nombres + " | "); 
-            escritor.write(apellidos + " | ");
-            escritor.write(email + " | ");
-            escritor.write(telefono + " | ");
-            escritor.write(especialidad + " | ");
-            escritor.write(tipoContrato + " |\n");
-            System.out.print("Profesor Agregado al Sistema!\n");
-            escritor.close();       
-        } catch (IOException ex) {
-            Logger.getLogger(Estudiante.class.getName()).log(Level.SEVERE, null, ex);
-        }  
-        
     }
 
     public String getIdProfesor() {
@@ -57,9 +29,18 @@ public class Profesor extends Persona {
         this.especialidad = especialidad;
     }
 
-         
-     @Override
-    public String toString() {
-        return "Profesor: " + getNombreCompleto() + " - " + especialidad;
+    public String getTipoContrato() {
+        return tipoContrato;
     }
+
+    public void setTipoContrato(String tipoContrato) {
+        this.tipoContrato = tipoContrato;
+    }
+
+    @Override
+    public String toString() {
+        return "Profesor{" + "idProfesor=" + idProfesor + ", especialidad=" + especialidad + ", tipoContrato=" + tipoContrato + '}';
+    }
+
+  
 }
