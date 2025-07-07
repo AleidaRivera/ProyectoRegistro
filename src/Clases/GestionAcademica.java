@@ -1,10 +1,13 @@
 
 package Clases;
 
+import Excepciones.CursoDuplicado;
 import Interface.Procesable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GestionAcademica implements Procesable {
     
@@ -159,9 +162,13 @@ public class GestionAcademica implements Procesable {
             return false;
         }
         
-        if (buscarCursoPorCodigo(String.valueOf(curso.getCodigo())) != null) {
-            return false; 
-        }
+         if (buscarCursoPorCodigo(String.valueOf(curso.getCodigo())) != null) {
+            try {
+                throw new CursoDuplicado("Ya existe un curso con el código: " + curso.getCodigo());
+            } catch (CursoDuplicado ex) {
+                Logger.getLogger(GestionAcademica.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
      
         boolean profesorExiste = false;
         for (Profesor profesor : profesores) {
