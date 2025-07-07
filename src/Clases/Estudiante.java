@@ -11,7 +11,7 @@ public class Estudiante extends Persona {
     private String carrera;
     private int nivel;
 
-    public Estudiante(String carnet, String carrera, int nivel, String nombres, String apellidos, String email, String telefono) {
+    public Estudiante(String carnet, String carrera, String nombres, String apellidos, String email, String telefono, String telefono1) {
         super(nombres, apellidos, email, telefono);
         this.carnet = carnet;
         this.carrera = carrera;
