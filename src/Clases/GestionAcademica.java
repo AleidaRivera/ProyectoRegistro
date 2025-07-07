@@ -2,6 +2,7 @@
 package Clases;
 
 import Excepciones.CursoDuplicado;
+import Excepciones.ProfesorDuplicado;
 import Interface.Procesable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -86,9 +87,17 @@ public class GestionAcademica implements Procesable {
         }
         
        
-        if (buscarProfesorPorId(profesor.getIdProfesor()) != null) {
-            return false; 
-        }
+       
+    if (buscarProfesorPorId(profesor.getIdProfesor()) != null) {
+            try {
+                throw new ProfesorDuplicado("Ya existe un profesor con el ID: " + profesor.getIdProfesor());
+            } catch (ProfesorDuplicado ex) {
+                Logger.getLogger(GestionAcademica.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            finally{
+                System.out.println("No se puede crear un Profesor con el mismo ID intente con otro id diferente");
+            }
+    }
         
         return profesores.add(profesor);
     }
@@ -167,6 +176,9 @@ public class GestionAcademica implements Procesable {
                 throw new CursoDuplicado("Ya existe un curso con el código: " + curso.getCodigo());
             } catch (CursoDuplicado ex) {
                 Logger.getLogger(GestionAcademica.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            finally{
+                System.out.println ("Lo sentimos no se puede crear un curso duplicado");
             }
     }
      
