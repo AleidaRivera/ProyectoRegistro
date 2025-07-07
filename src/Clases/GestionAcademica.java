@@ -6,8 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public abstract class GestionAcademica implements Procesable {
+public class GestionAcademica implements Procesable {
     
     private final List<Estudiante> estudiantes = new ArrayList<>();
     private final List<Profesor> profesores = new ArrayList<>();

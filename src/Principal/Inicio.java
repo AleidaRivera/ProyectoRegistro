@@ -10,7 +10,6 @@ import Interface.Procesable;
 import java.util.List;
 import java.util.Scanner;
 
-
 public class Inicio {
 
     public static void main(String[] args) {
