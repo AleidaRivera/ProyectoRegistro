@@ -1,34 +1,345 @@
 
 package Clases;
 
+import Interface.Procesable;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 
-public interface GestionAcademica {
-    boolean registrarEstudiante(Estudiante estudiante); // Metodo para hacer algo
-    Estudiante buscarEstudiantePorCarnet(String carnet); // Hace una busqueda interesante 
-    List<Estudiante> obtenerTodosLosEstudiantes(); // obtiene la lista de los que se pide 
-    boolean actualizarEstudiante(Estudiante estudiante); //Actualiza el registro 
-    boolean eliminarEstudiante(String carnet); //Elimina algo importante
+public abstract class GestionAcademica implements Procesable {
+    
+    private final List<Estudiante> estudiantes = new ArrayList<>();
+    private final List<Profesor> profesores = new ArrayList<>();
+    private final List<Cursos> cursos = new ArrayList<>();
+    private final List<Matricula> matriculas = new ArrayList<>();
     
     
-    boolean registrarProfesor(Profesor profesor);
-    Profesor buscarProfesorPorId(String idProfesor);
-    List<Profesor> obtenerTodosLosProfesores();
-    boolean actualizarProfesor(Profesor profesor);
-    boolean eliminarProfesor(String idProfesor);
-    
+    @Override
+    public boolean registrarEstudiante(Estudiante estudiante) {
+        if (estudiante == null || estudiante.getCarnet() == null || estudiante.getCarnet().trim().isEmpty()) {
+            return false;
+        }
+        
+       
+        if (buscarEstudiantePorCarnet(estudiante.getCarnet()) != null) {
+            return false; 
+        }
+        
+        return estudiantes.add(estudiante);
+    }
+
+    @Override
+    public Estudiante buscarEstudiantePorCarnet(String carnet) {
+        if (carnet == null || carnet.trim().isEmpty()) {
+            return null;
+        }
+        
+        for (Estudiante estudiante : estudiantes) {
+            if (carnet.equals(estudiante.getCarnet())) {
+                return estudiante;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<Estudiante> obtenerTodosLosEstudiantes() {
+        return new ArrayList<>(estudiantes);
+    }
+
+    @Override
+    public boolean actualizarEstudiante(Estudiante estudiante) {
+        if (estudiante == null || estudiante.getCarnet() == null || estudiante.getCarnet().trim().isEmpty()) {
+            return false;
+        }
+        
+        for (int i = 0; i < estudiantes.size(); i++) {
+            if (estudiante.getCarnet().equals(estudiantes.get(i).getCarnet())) {
+                estudiantes.set(i, estudiante);
+                return true;
+            }
+        }
+        return false; 
+    }
+
+    @Override
+    public boolean eliminarEstudiante(String carnet) {
+        if (carnet == null || carnet.trim().isEmpty()) {
+            return false;
+        }
+        
+     
+        matriculas.removeIf(m -> carnet.equals(m.getEstudiante()));
+        
+      
+        return estudiantes.removeIf(e -> carnet.equals(e.getCarnet()));
+    }
+
    
-    boolean crearCurso(Cursos curso);
-    Cursos buscarCursoPorCodigo(String codigo);
-    List<Cursos> obtenerTodosLosCursos();
-    boolean actualizarCurso(Cursos curso);
-    boolean eliminarCurso(String codigo);
-    
+    @Override
+    public boolean registrarProfesor(Profesor profesor) {
+        if (profesor == null || profesor.getIdProfesor() == null || profesor.getIdProfesor().trim().isEmpty()) {
+            return false;
+        }
+        
+       
+        if (buscarProfesorPorId(profesor.getIdProfesor()) != null) {
+            return false; 
+        }
+        
+        return profesores.add(profesor);
+    }
+
+    @Override
+    public Profesor buscarProfesorPorId(String idProfesor) {
+        if (idProfesor == null || idProfesor.trim().isEmpty()) {
+            return null;
+        }
+        
+        for (Profesor profesor : profesores) {
+            if (idProfesor.equals(profesor.getIdProfesor())) {
+                return profesor;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<Profesor> obtenerTodosLosProfesores() {
+        return new ArrayList<>(profesores);
+    }
+
+    @Override
+    public boolean actualizarProfesor(Profesor profesor) {
+        if (profesor == null || profesor.getIdProfesor() == null || profesor.getIdProfesor().trim().isEmpty()) {
+            return false;
+        }
+        
+        for (int i = 0; i < profesores.size(); i++) {
+            if (profesor.getIdProfesor().equals(profesores.get(i).getIdProfesor())) {
+                profesores.set(i, profesor);
+                return true;
+            }
+        }
+        return false; 
+    }
+
+    @Override
+    public boolean eliminarProfesor(String idProfesor) {
+        if (idProfesor == null || idProfesor.trim().isEmpty()) {
+            return false;
+        }
+        
+      
+        try {
+            int idProfesorInt = Integer.parseInt(idProfesor);
+            boolean tieneCursosAsignados = false;
+            
+            for (Cursos curso : cursos) {
+                if (curso.getCapacidadMaxima()== idProfesorInt) {
+                    tieneCursosAsignados = true;
+                    break;
+                }
+            }
+            
+            if (tieneCursosAsignados) {
+                return false; 
+            }
+        } catch (NumberFormatException e) {
+           
+        }
+        
+        return profesores.removeIf(p -> idProfesor.equals(p.getIdProfesor()));
+    }
+
    
-    boolean matricularEstudiante(String carnetEstudiante, String codigoCurso);
-    boolean desmatricularEstudiante(String carnetEstudiante, String codigoCurso);
-    List<Matricula> obtenerMatriculasPorEstudiante(String carnetEstudiante);
-    List<Matricula> obtenerMatriculasPorCurso(String codigoCurso);
-    List<Matricula> obtenerTodasLasMatriculas();
+    @Override
+    public boolean crearCurso(Cursos curso) {
+        if (curso == null) {
+            return false;
+        }
+        
+        if (buscarCursoPorCodigo(String.valueOf(curso.getCodigo())) != null) {
+            return false; 
+        }
+     
+        boolean profesorExiste = false;
+        for (Profesor profesor : profesores) {
+            try {
+                if (Integer.parseInt(profesor.getIdProfesor()) == curso.getCapacidadMaxima()) {
+                    profesorExiste = true;
+                    break;
+                }
+            } catch (NumberFormatException e) {
+            }
+        }
+        
+        if (!profesorExiste) {
+            return false; // El profesor no existe
+        }
+        
+        return cursos.add(curso);
+    }
+
+    @Override
+    public Cursos buscarCursoPorCodigo(String codigo) {
+        if (codigo == null || codigo.trim().isEmpty()) {
+            return null;
+        }
+        
+        try {
+            int codigoInt = Integer.parseInt(codigo);
+            for (Cursos curso : cursos) {
+                if (curso.getCodigo() == codigoInt) {
+                    return curso;
+                }
+            }
+        } catch (NumberFormatException e) {
+            return null;
+        }
+        
+        return null;
+    }
+
+    @Override
+    public List<Cursos> obtenerTodosLosCursos() {
+        return new ArrayList<>(cursos);
+    }
+
+    @Override
+    public boolean actualizarCurso(Cursos curso) {
+        if (curso == null) {
+            return false;
+        }
+        
+        for (int i = 0; i < cursos.size(); i++) {
+            if (curso.getCodigo() == cursos.get(i).getCodigo()) {
+                cursos.set(i, curso);
+                return true;
+            }
+        }
+        return false; // Curso no encontrado
+    }
+
+    @Override
+    public boolean eliminarCurso(String codigo) {
+        if (codigo == null || codigo.trim().isEmpty()) {
+            return false;
+        }
+        
+        try {
+            int codigoInt = Integer.parseInt(codigo);
+            
+           
+            matriculas.removeIf(m -> String.valueOf(codigoInt).equals(m.getCurso()));
+            
+            
+            return cursos.removeIf(c -> c.getCodigo() == codigoInt);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    
+    @Override
+    public boolean matricularEstudiante(String carnetEstudiante, String codigoCurso) {
+        if (carnetEstudiante == null || carnetEstudiante.trim().isEmpty() || 
+            codigoCurso == null || codigoCurso.trim().isEmpty()) {
+            return false;
+        }
+        
+       
+        if (buscarEstudiantePorCarnet(carnetEstudiante) == null) {
+            return false;
+        }
+        
+       
+        Cursos curso = buscarCursoPorCodigo(codigoCurso);
+        if (curso == null) {
+            return false;
+        }
+        
+       
+        for (Matricula matricula : matriculas) {
+            if (carnetEstudiante.equals(matricula.getEstudiante()) && 
+                codigoCurso.equals(matricula.getCurso())) {
+                return false; // Ya está matriculado
+            }
+        }
+        
+       
+        int estudiantesMatriculados = 0;
+        for (Matricula matricula : matriculas) {
+            if (codigoCurso.equals(matricula.getCurso())) {
+                estudiantesMatriculados++;
+            }
+        }
+        
+        if (estudiantesMatriculados >= curso.getCapacidadMaxima()) {
+            return false; // El curso está lleno
+        }
+        Estudiante estudiante = buscarEstudiantePorCarnet(carnetEstudiante);
+       Cursos cursos = buscarCursoPorCodigo(codigoCurso);
+
+        if (estudiante != null && curso != null) {
+        Matricula nuevaMatricula = new Matricula(estudiante, curso, LocalDate.now());
+        return matriculas.add(nuevaMatricula);
+        } else {
+        System.out.println("Estudiante o curso no encontrado.");
+        return false;
+         }
+    }
+
+    @Override
+    public boolean desmatricularEstudiante(String carnetEstudiante, String codigoCurso) {
+        if (carnetEstudiante == null || carnetEstudiante.trim().isEmpty() || 
+            codigoCurso == null || codigoCurso.trim().isEmpty()) {
+            return false;
+        }
+        
+        return matriculas.removeIf(m -> carnetEstudiante.equals(m.getEstudiante()) && 
+        codigoCurso.equals(m.getCurso()));
+    }
+
+    @Override
+    public List<Matricula> obtenerMatriculasPorEstudiante(String carnetEstudiante) {
+        List<Matricula> resultado = new ArrayList<>();
+        
+        if (carnetEstudiante == null || carnetEstudiante.trim().isEmpty()) {
+            return resultado;
+        }
+        
+        for (Matricula matricula : matriculas) {
+            if (carnetEstudiante.equals(matricula.getEstudiante())) {
+                resultado.add(matricula);
+            }
+        }
+        
+        return resultado;
+    }
+
+    @Override
+    public List<Matricula> obtenerMatriculasPorCurso(String codigoCurso) {
+        List<Matricula> resultado = new ArrayList<>();
+        
+        if (codigoCurso == null || codigoCurso.trim().isEmpty()) {
+            return resultado;
+        }
+        
+        for (Matricula matricula : matriculas) {
+            if (codigoCurso.equals(matricula.getCurso())) {
+                resultado.add(matricula);
+            }
+        }
+        
+        return resultado;
+    }
+    
+    @Override
+    public List<Matricula> obtenerTodasLasMatriculas() {
+        return new ArrayList<>(matriculas);
+    }
+    
+    
 }

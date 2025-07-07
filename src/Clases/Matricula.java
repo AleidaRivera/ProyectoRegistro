@@ -8,7 +8,7 @@ public class Matricula {
     private Cursos curso;
     private LocalDate fechaMatricula;
 
-    public Matricula(Estudiante estudiante, Cursos curso) {
+    public Matricula(Estudiante estudiante, Cursos curso, LocalDate fechaMatricula) {
         this.estudiante = estudiante;
         this.curso = curso;
         this.fechaMatricula = fechaMatricula;
@@ -37,9 +37,9 @@ public class Matricula {
     public void setFechaMatricula(LocalDate fechaMatricula) {
         this.fechaMatricula = fechaMatricula;
     }
-    
-     @Override
+
+    @Override
     public String toString() {
-    return "Matrícula: " + estudiante.getNombreCompleto() + " en " + curso.getNombre() + " (Fecha: " + fechaMatricula + ")";
+        return "Matricula{" + "estudiante=" + estudiante + ", curso=" + curso + ", fechaMatricula=" + fechaMatricula + '}';
     }
 }
