@@ -1,12 +1,12 @@
 
-# 🎓 Sistema de Registro de Matrícula
+# Sistema de Registro de Matrícula
 
 ##  Integrantes
 
 - Ronny Rodriguez Gomez 
 - Aleida Rivera Borge 
 
-## 📝 Descripción
+##  Descripción
 
 Aplicación de escritorio desarrollada en Java con el entorno NetBeans. Su objetivo es gestionar el proceso de matrícula en una institución educativa, facilitando el registro de estudiantes y la asignación de cursos.
 
@@ -16,7 +16,7 @@ Funciones principales:
 - Edición y eliminación de registros
 - Visualización de matrículas existentes
 
-## ⚙️ Cómo compilar y ejecutar
+## ⚙ Cómo compilar y ejecutar
 
 1. Abrir el proyecto en **NetBeans IDE**
 2. Verificar que esté configurado el **JDK (Java Development Kit)** correctamente
