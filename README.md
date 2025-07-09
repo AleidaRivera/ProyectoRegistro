@@ -29,5 +29,4 @@ Funciones principales:
 2. **Registro de estudiante:** Selecciona la opción “Registrar Estudiante” e ingresa los datos requeridos (nombre, identificación, etc.)
 3. **Asignación de cursos:** Usa la opción “Asignar Cursos” para vincular materias al estudiante, según el período académico.
 4. **Consulta de matrículas:** En “Ver Matrículas”, puedes buscar por estudiante o período, y ver los cursos registrados.
-5. **Edición/eliminación:** Desde la lista de estudiantes, puedes editar datos o eliminar registros.
-6. **Cerrar sesión o salir:** Utiliza el botón de salida para cerrar la aplicación de manera segura.
+5. **Cerrar sesión o salir:** Utiliza el botón de salida para cerrar la aplicación de manera segura.
